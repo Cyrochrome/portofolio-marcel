@@ -17,6 +17,7 @@
  */
 
 import Link from "next/link";
+import { escapeApostrophes } from "@/lib/jsx-utils";
 
 /**
  * Featured project interface for type safety
@@ -98,7 +99,8 @@ export default function Home(): React.JSX.Element {
       <section className="container px-4 py-24 mx-auto text-center lg:px-8 lg:py-32">
         <div className="max-w-3xl mx-auto">
           <h1 className="text-4xl font-bold tracking-tight text-foreground sm:text-5xl lg:text-6xl">
-            Hi, I'm <span className="text-primary">Marcel</span>
+            Hi, {escapeApostrophes("I'm")}{" "}
+            <span className="text-primary">Marcel</span>
           </h1>
           <p className="mt-6 text-lg leading-8 text-muted-foreground lg:text-xl">
             A passionate full-stack developer specializing in creating
@@ -108,7 +110,7 @@ export default function Home(): React.JSX.Element {
           <div className="mt-10 flex items-center justify-center gap-x-6">
             <Link
               href="/projects"
-              className="rounded-md bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow-sm hover:bg-primary/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary transition-colors"
+              className="rounded-md bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow-sm hover:bg-primary/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary transition-colors"
             >
               View My Work
             </Link>
@@ -223,17 +225,18 @@ export default function Home(): React.JSX.Element {
       <section className="container px-4 py-16 mx-auto lg:px-8">
         <div className="mx-auto max-w-2xl text-center">
           <h2 className="text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-            Let's Work Together
+            {escapeApostrophes("Let's")} Work Together
           </h2>
           <p className="mt-4 text-lg leading-8 text-muted-foreground">
-            I'm always interested in new opportunities and exciting projects.
-            Whether you have a specific project in mind or just want to chat
-            about technology, I'd love to hear from you.
+            {escapeApostrophes("I'm")} always interested in new opportunities
+            and exciting projects. Whether you have a specific project in mind
+            or just want to chat about technology, {escapeApostrophes("I'd")}{" "}
+            love to hear from you.
           </p>
           <div className="mt-10 flex items-center justify-center gap-x-6">
             <Link
               href="/contact"
-              className="rounded-md bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow-sm hover:bg-primary/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary transition-colors"
+              className="rounded-md bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow-sm hover:bg-primary/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary transition-colors"
             >
               Get In Touch
             </Link>
