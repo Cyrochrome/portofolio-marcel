@@ -8,6 +8,7 @@
  */
 
 import { motion } from "framer-motion";
+import { Badge } from "@/components/ui/badge";
 
 interface SkillsSectionProps {
   skills?: string[];
@@ -72,9 +73,8 @@ export function SkillsSection({ skills = defaultSkills }: SkillsSectionProps) {
         >
           <div className="flex flex-wrap justify-center gap-3">
             {skills.map((skill, index) => (
-              <motion.span
+              <motion.div
                 key={skill}
-                className="inline-flex items-center rounded-full bg-background px-4 py-2 text-sm font-medium text-foreground shadow-sm ring-1 ring-inset ring-border hover:bg-muted transition-colors"
                 initial={{ opacity: 0, scale: 0.8 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
@@ -87,8 +87,10 @@ export function SkillsSection({ skills = defaultSkills }: SkillsSectionProps) {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                {skill}
-              </motion.span>
+                <Badge variant="secondary" className="text-sm px-4 py-2 h-auto">
+                  {skill}
+                </Badge>
+              </motion.div>
             ))}
           </div>
         </motion.div>

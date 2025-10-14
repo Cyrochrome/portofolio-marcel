@@ -9,7 +9,16 @@
 
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faFolder,
+  faStar,
+  faCodeBranch,
+  faLaptopCode,
+} from "@fortawesome/free-solid-svg-icons";
 import { GitHubStats as GitHubStatsType } from "@/types/github";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 
 interface GitHubStatsProps {
   className?: string;
@@ -86,22 +95,22 @@ export function GitHubStats({ className = "" }: GitHubStatsProps) {
     {
       label: "Repositories",
       value: stats.totalRepositories,
-      icon: "📁",
+      icon: faFolder,
     },
     {
       label: "Total Stars",
       value: stats.totalStars,
-      icon: "⭐",
+      icon: faStar,
     },
     {
       label: "Total Forks",
       value: stats.totalForks,
-      icon: "🍴",
+      icon: faCodeBranch,
     },
     {
       label: "Languages",
       value: stats.mostUsedLanguages.length,
-      icon: "💻",
+      icon: faLaptopCode,
     },
   ];
 
@@ -131,21 +140,30 @@ export function GitHubStats({ className = "" }: GitHubStatsProps) {
 
         <div className="grid grid-cols-2 gap-6 lg:grid-cols-4 mb-12">
           {statItems.map((item) => (
-            <motion.div
+            <Card
               key={item.label}
-              className="rounded-lg bg-card border p-6 text-center shadow-sm hover:shadow-md transition-shadow"
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              whileHover={{ y: -2 }}
+              className="hover:shadow-md transition-shadow"
             >
-              <div className="text-2xl mb-2">{item.icon}</div>
-              <div className="text-2xl font-bold text-foreground mb-1">
-                {item.value.toLocaleString()}
-              </div>
-              <div className="text-sm text-muted-foreground">{item.label}</div>
-            </motion.div>
+              <CardContent className="p-6 text-center">
+                <motion.div
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6 }}
+                  whileHover={{ y: -2 }}
+                >
+                  <div className="text-2xl mb-2">
+                    <FontAwesomeIcon icon={item.icon} />
+                  </div>
+                  <div className="text-2xl font-bold text-foreground mb-1">
+                    {item.value.toLocaleString()}
+                  </div>
+                  <div className="text-sm text-muted-foreground">
+                    {item.label}
+                  </div>
+                </motion.div>
+              </CardContent>
+            </Card>
           ))}
         </div>
 

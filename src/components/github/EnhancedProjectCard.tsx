@@ -10,8 +10,11 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faStar, faCodeBranch } from "@fortawesome/free-solid-svg-icons";
 import { GitHubRepoStats } from "@/types/github";
 import { getRepoNameFromUrl } from "@/lib/github-utils";
+import { Badge } from "@/components/ui/badge";
 
 interface EnhancedProjectCardProps {
   title: string;
@@ -91,13 +94,13 @@ export function EnhancedProjectCard({
             <div className="flex items-center gap-3 text-xs">
               {githubData.stars > 0 && (
                 <div className="flex items-center gap-1 text-muted-foreground">
-                  <span>⭐</span>
+                  <FontAwesomeIcon icon={faStar} className="h-3 w-3" />
                   <span>{githubData.stars}</span>
                 </div>
               )}
               {githubData.forks > 0 && (
                 <div className="flex items-center gap-1 text-muted-foreground">
-                  <span>🍴</span>
+                  <FontAwesomeIcon icon={faCodeBranch} className="h-3 w-3" />
                   <span>{githubData.forks}</span>
                 </div>
               )}
@@ -173,12 +176,9 @@ export function EnhancedProjectCard({
         {/* Technologies */}
         <div className="flex flex-wrap gap-2 mb-4">
           {technologies.map((tech) => (
-            <span
-              key={tech}
-              className="inline-flex items-center rounded-md bg-primary/10 px-2.5 py-0.5 text-xs font-medium text-primary ring-1 ring-inset ring-primary/20"
-            >
+            <Badge key={tech} variant="secondary" className="text-xs">
               {tech}
-            </span>
+            </Badge>
           ))}
         </div>
       </div>

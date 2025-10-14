@@ -10,6 +10,7 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { escapeApostrophes } from "@/lib/jsx-utils";
+import { Button } from "@/components/ui/button";
 
 export function CallToActionSection() {
   return (
@@ -54,23 +55,19 @@ export function CallToActionSection() {
             whileTap={{ scale: 0.95 }}
             transition={{ duration: 0.2 }}
           >
-            <Link
-              href="/contact"
-              className="rounded-md bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow-sm hover:bg-primary/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary transition-colors"
-            >
-              Get In Touch
-            </Link>
+            <Button asChild size="lg">
+              <Link href="/contact">Get In Touch</Link>
+            </Button>
           </motion.div>
           <motion.div
             whileHover={{ scale: 1.05 }}
             transition={{ duration: 0.2 }}
           >
-            <Link
-              href="/about"
-              className="text-sm font-semibold leading-6 text-foreground hover:text-primary transition-colors"
-            >
-              Learn More About Me <span aria-hidden="true">→</span>
-            </Link>
+            <Button variant="ghost" asChild>
+              <Link href="/about">
+                Learn More About Me <span aria-hidden="true">→</span>
+              </Link>
+            </Button>
           </motion.div>
         </motion.div>
       </div>

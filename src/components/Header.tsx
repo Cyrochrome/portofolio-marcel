@@ -34,6 +34,14 @@ import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
+import { Button } from "@/components/ui/button";
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
 
 /**
  * Navigation item interface for type safety
@@ -85,22 +93,22 @@ export default function Header(): React.JSX.Element {
       animate={{ y: 0 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
     >
-      <div className="container flex h-14 items-center">
+      <div className="container flex h-16 md:h-20 items-center px-4 md:px-6 lg:px-8">
         {/* Logo/Brand */}
         <motion.div
-          className="mr-4 hidden md:flex"
+          className="mr-4 flex-1 md:flex-initial hidden md:flex"
           whileHover={{ scale: 1.05 }}
           transition={{ duration: 0.2 }}
         >
           <Link href="/" className="mr-6 flex items-center space-x-2">
-            <span className="hidden font-bold sm:inline-block">
+            <span className="font-bold text-base md:text-lg">
               Portfolio Marcel
             </span>
           </Link>
         </motion.div>
 
         {/* Desktop Navigation */}
-        <nav className="flex items-center space-x-6 text-sm font-medium">
+        <nav className="hidden md:flex items-center space-x-8 text-sm font-medium">
           {navItems.map((item, index) => (
             <motion.div
               key={item.name}
@@ -129,71 +137,64 @@ export default function Header(): React.JSX.Element {
           ))}
         </nav>
 
-        {/* Mobile Menu Button */}
-        <motion.button
-          onClick={toggleMenu}
-          className="inline-flex items-center justify-center rounded-md font-medium transition-colors focus-visible:outline-none focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 hover:text-accent-foreground h-9 py-2 mr-2 px-0 text-base hover:bg-transparent focus-visible:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 md:hidden"
-          type="button"
-          aria-haspopup="dialog"
-          aria-expanded={isMenuOpen}
-          aria-controls="radix-:R16H6:"
-          data-state={isMenuOpen ? "open" : "closed"}
-          whileHover={{ scale: 1.1 }}
-          whileTap={{ scale: 0.95 }}
-          transition={{ duration: 0.2 }}
-        >
-          <motion.div
-            animate={{ rotate: isMenuOpen ? 90 : 0 }}
-            transition={{ duration: 0.3 }}
-          >
-            <FontAwesomeIcon icon={faBars} className="h-5 w-5" />
-          </motion.div>
-          <span className="sr-only">Toggle Menu</span>
-        </motion.button>
-      </div>
-
-      {/* Mobile Navigation Menu */}
-      <AnimatePresence>
-        {isMenuOpen && (
-          <motion.div
-            className="fixed inset-0 top-14 z-50 grid h-[calc(100vh-3.5rem)] grid-flow-row auto-rows-max overflow-auto p-6 pb-32 shadow-md md:hidden"
-            initial={{ opacity: 0, x: "100%" }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: "100%" }}
-            transition={{ duration: 0.3, ease: "easeInOut" }}
-          >
-            <motion.div
-              className="relative z-20 grid gap-6 rounded-md bg-popover p-4 text-popover-foreground shadow-md"
+        {/* Mobile Menu Sheet */}
+        <Sheet open={isMenuOpen} onOpenChange={setIsMenuOpen}>
+          <SheetTrigger asChild>
+            <Button
+              variant="ghost"
+              className="mr-2 px-0 text-base hover:bg-transparent focus-visible:bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0 md:hidden"
+              size="sm"
+              asChild
+            >
+              <motion.button
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.95 }}
+                transition={{ duration: 0.2 }}
+              >
+                <motion.div
+                  animate={{ rotate: isMenuOpen ? 90 : 0 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <FontAwesomeIcon icon={faBars} className="h-5 w-5" />
+                </motion.div>
+                <span className="sr-only">Toggle Menu</span>
+              </motion.button>
+            </Button>
+          </SheetTrigger>
+          <SheetContent side="right" className="w-[300px] sm:w-[400px]">
+            <SheetHeader>
+              <SheetTitle>Navigation</SheetTitle>
+            </SheetHeader>
+            <motion.nav
+              className="grid gap-6 mt-6"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.3, delay: 0.1 }}
             >
-              <nav className="grid grid-flow-row auto-rows-max text-sm">
-                {navItems.map((item, index) => (
-                  <motion.div
-                    key={item.name}
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.3, delay: index * 0.1 }}
+              {navItems.map((item, index) => (
+                <motion.div
+                  key={item.name}
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.3, delay: index * 0.1 }}
+                >
+                  <Link
+                    href={item.href}
+                    onClick={closeMenu}
+                    className={`flex w-full items-center rounded-md p-3 text-sm font-medium hover:underline transition-colors ${
+                      pathname === item.href
+                        ? "text-foreground bg-accent"
+                        : "text-foreground/70 hover:text-foreground hover:bg-accent/50"
+                    }`}
                   >
-                    <Link
-                      href={item.href}
-                      onClick={closeMenu}
-                      className={`flex w-full items-center rounded-md p-2 text-sm font-medium hover:underline ${
-                        pathname === item.href
-                          ? "text-foreground"
-                          : "text-foreground/70"
-                      }`}
-                    >
-                      {item.name}
-                    </Link>
-                  </motion.div>
-                ))}
-              </nav>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+                    {item.name}
+                  </Link>
+                </motion.div>
+              ))}
+            </motion.nav>
+          </SheetContent>
+        </Sheet>
+      </div>
     </motion.header>
   );
 }

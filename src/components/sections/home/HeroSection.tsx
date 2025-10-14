@@ -10,6 +10,7 @@
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { escapeApostrophes } from "@/lib/jsx-utils";
+import { Button } from "@/components/ui/button";
 
 export function HeroSection() {
   return (
@@ -53,23 +54,19 @@ export function HeroSection() {
             whileTap={{ scale: 0.95 }}
             transition={{ duration: 0.2 }}
           >
-            <Link
-              href="/projects"
-              className="rounded-md bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground shadow-sm hover:bg-primary/90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary transition-colors"
-            >
-              View My Work
-            </Link>
+            <Button asChild size="lg">
+              <Link href="/projects">View My Work</Link>
+            </Button>
           </motion.div>
           <motion.div
             whileHover={{ scale: 1.05 }}
             transition={{ duration: 0.2 }}
           >
-            <Link
-              href="/contact"
-              className="text-sm font-semibold leading-6 text-foreground hover:text-primary transition-colors"
-            >
-              Get In Touch <span aria-hidden="true">→</span>
-            </Link>
+            <Button variant="ghost" asChild>
+              <Link href="/contact">
+                Get In Touch <span aria-hidden="true">→</span>
+              </Link>
+            </Button>
           </motion.div>
         </motion.div>
       </div>
