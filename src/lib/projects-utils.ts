@@ -47,10 +47,10 @@ export const STATIC_PROJECTS: ProjectConfig[] = [
   },
   {
     id: "bimbel-alfa",
-    title: "Learning Management System",
+    title: "Bimbel Landing Page",
     description:
-      "Comprehensive educational platform with course management, student progress tracking, and interactive learning modules built with modern web technologies.",
-    technologies: ["TypeScript", "React", "Node.js", "PostgreSQL"],
+      "Modern landing page for Bimbel Alfa, a tutoring and educational services platform. Features responsive design, engaging content sections, and conversion-optimized layout.",
+    technologies: ["TypeScript", "React", "Node.js", "Tailwind CSS"],
     githubUrl: "https://github.com/Cyrochrome/bimbel-alfa",
     liveUrl: "https://example.com",
     featured: true,
