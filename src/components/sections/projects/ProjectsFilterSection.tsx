@@ -103,14 +103,7 @@ export function ProjectsFilterSection({
     });
 
     onFilteredProjectsChange(sorted);
-  }, [
-    projects,
-    searchQuery,
-    sortBy,
-    filterBy,
-    selectedTechnology,
-    onFilteredProjectsChange,
-  ]);
+  }, [projects, searchQuery, sortBy, filterBy, selectedTechnology]);
 
   return (
     <section className="container px-4 py-8 mx-auto lg:px-8">
