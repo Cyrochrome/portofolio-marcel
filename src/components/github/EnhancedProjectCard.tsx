@@ -44,6 +44,7 @@ export function EnhancedProjectCard({
     async function fetchGitHubData() {
       try {
         setLoading(true);
+        setError(null); // Clear previous errors
         const repoName = getRepoNameFromUrl(githubUrl || "");
 
         if (!repoName) {
@@ -52,25 +53,37 @@ export function EnhancedProjectCard({
         }
 
         const response = await fetch(
-          `/api/github/repos/${encodeURIComponent(repoName)}`
+          `/api/github/repos/${encodeURIComponent(repoName)}`,
+          {
+            // Add cache control for better performance
+            next: { revalidate: 1800 }, // Cache for 30 minutes
+          }
         );
 
         if (!response.ok) {
-          throw new Error("Failed to fetch repository data");
+          if (response.status === 404) {
+            setError("Repository not found");
+            return;
+          }
+          throw new Error(`HTTP ${response.status}: ${response.statusText}`);
         }
 
         const data = await response.json();
 
-        if (data.success) {
+        if (data.success && data.data) {
           setGithubData(data.data);
         } else {
-          throw new Error(data.error || "Unknown error");
+          throw new Error(data.error || "Failed to load repository data");
         }
       } catch (err) {
         console.error("Error fetching GitHub data:", err);
         setError(
           err instanceof Error ? err.message : "Failed to load GitHub data"
         );
+        // Don't show error for network issues, just show fallback
+        if (err instanceof Error && err.message.includes("fetch")) {
+          setError("Unable to load live GitHub data");
+        }
       } finally {
         setLoading(false);
       }

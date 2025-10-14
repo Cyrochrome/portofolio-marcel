@@ -20,6 +20,35 @@ const GITHUB_API_BASE = "https://api.github.com";
 const USERNAME = "Cyrochrome"; // GitHub username from portfolio
 
 /**
+ * Get GitHub token from environment variables
+ */
+function getGitHubToken(): string | null {
+  // In Next.js, environment variables are available at runtime
+  if (typeof window === 'undefined') {
+    // Server-side
+    return process.env.GITHUB_TOKEN || process.env.NEXT_PUBLIC_GITHUB_TOKEN || null;
+  }
+  // Client-side
+  return null;
+}
+
+/**
+ * Get authorization headers for GitHub API
+ */
+function getGitHubHeaders(): Record<string, string> {
+  const token = getGitHubToken();
+  const headers: Record<string, string> = {
+    Accept: "application/vnd.github.v3+json",
+  };
+
+  if (token) {
+    headers.Authorization = `token ${token}`;
+  }
+
+  return headers;
+}
+
+/**
  * Fetch user repositories from GitHub API
  */
 export async function fetchUserRepositories(): Promise<GitHubRepository[]> {
@@ -27,9 +56,7 @@ export async function fetchUserRepositories(): Promise<GitHubRepository[]> {
     const response = await fetch(
       `${GITHUB_API_BASE}/users/${USERNAME}/repos?sort=updated&per_page=100`,
       {
-        headers: {
-          Accept: "application/vnd.github.v3+json",
-        },
+        headers: getGitHubHeaders(),
         next: { revalidate: 3600 }, // Cache for 1 hour
       }
     );
@@ -58,14 +85,16 @@ export async function fetchRepositoryDetails(repoName: string): Promise<GitHubRe
     const response = await fetch(
       `${GITHUB_API_BASE}/repos/${USERNAME}/${repoName}`,
       {
-        headers: {
-          Accept: "application/vnd.github.v3+json",
-        },
+        headers: getGitHubHeaders(),
         next: { revalidate: 1800 }, // Cache for 30 minutes
       }
     );
 
     if (!response.ok) {
+      if (response.status === 404) {
+        // Repository not found - return null instead of throwing
+        return null;
+      }
       throw new Error(`GitHub API error: ${response.status}`);
     }
 
@@ -84,14 +113,16 @@ export async function fetchRepositoryLanguages(repoName: string): Promise<GitHub
     const response = await fetch(
       `${GITHUB_API_BASE}/repos/${USERNAME}/${repoName}/languages`,
       {
-        headers: {
-          Accept: "application/vnd.github.v3+json",
-        },
+        headers: getGitHubHeaders(),
         next: { revalidate: 3600 }, // Cache for 1 hour
       }
     );
 
     if (!response.ok) {
+      if (response.status === 404) {
+        // Repository not found - return empty object instead of throwing
+        return {};
+      }
       throw new Error(`GitHub API error: ${response.status}`);
     }
 
@@ -113,14 +144,16 @@ export async function fetchRepositoryCommits(
     const response = await fetch(
       `${GITHUB_API_BASE}/repos/${USERNAME}/${repoName}/commits?per_page=${limit}`,
       {
-        headers: {
-          Accept: "application/vnd.github.v3+json",
-        },
+        headers: getGitHubHeaders(),
         next: { revalidate: 900 }, // Cache for 15 minutes
       }
     );
 
     if (!response.ok) {
+      if (response.status === 404) {
+        // Repository not found - return empty array instead of throwing
+        return [];
+      }
       throw new Error(`GitHub API error: ${response.status}`);
     }
 
