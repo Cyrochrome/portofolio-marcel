@@ -32,6 +32,8 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBars } from "@fortawesome/free-solid-svg-icons";
 
 /**
  * Navigation item interface for type safety
@@ -140,23 +142,12 @@ export default function Header(): React.JSX.Element {
           whileTap={{ scale: 0.95 }}
           transition={{ duration: 0.2 }}
         >
-          <motion.svg
-            strokeWidth="1.5"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            className="h-5 w-5"
+          <motion.div
             animate={{ rotate: isMenuOpen ? 90 : 0 }}
             transition={{ duration: 0.3 }}
           >
-            <path
-              d="M3 12h18M3 6h18M3 18h18"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </motion.svg>
+            <FontAwesomeIcon icon={faBars} className="h-5 w-5" />
+          </motion.div>
           <span className="sr-only">Toggle Menu</span>
         </motion.button>
       </div>
