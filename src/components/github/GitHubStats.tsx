@@ -17,8 +17,7 @@ import {
   faLaptopCode,
 } from "@fortawesome/free-solid-svg-icons";
 import { GitHubStats as GitHubStatsType } from "@/types/github";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import { Card, CardContent } from "@/components/ui/card";
 
 interface GitHubStatsProps {
   className?: string;

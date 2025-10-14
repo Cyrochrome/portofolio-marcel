@@ -31,7 +31,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars } from "@fortawesome/free-solid-svg-icons";
 import { Button } from "@/components/ui/button";
@@ -72,13 +72,6 @@ const navItems: NavItem[] = [
 export default function Header(): React.JSX.Element {
   const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
-
-  /**
-   * Toggles the mobile menu open/closed state
-   */
-  const toggleMenu = (): void => {
-    setIsMenuOpen(!isMenuOpen);
-  };
 
   /**
    * Closes the mobile menu

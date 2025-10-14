@@ -14,7 +14,13 @@
  * - TypeScript support
  */
 
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  useCallback,
+} from "react";
 
 /**
  * Theme type definition
@@ -69,7 +75,7 @@ export function ThemeProvider({
   /**
    * Update actual theme based on current theme setting
    */
-  const updateActualTheme = (currentTheme: Theme) => {
+  const updateActualTheme = useCallback((currentTheme: Theme) => {
     let newActualTheme: "light" | "dark";
 
     if (currentTheme === "system") {
@@ -87,7 +93,7 @@ export function ThemeProvider({
     } else {
       root.classList.remove("dark");
     }
-  };
+  }, []);
 
   /**
    * Set theme and persist to localStorage
@@ -120,7 +126,7 @@ export function ThemeProvider({
    */
   useEffect(() => {
     updateActualTheme(theme);
-  }, [theme]);
+  }, [theme, updateActualTheme]);
 
   /**
    * Listen for system theme changes
@@ -136,7 +142,7 @@ export function ThemeProvider({
 
     mediaQuery.addEventListener("change", handleChange);
     return () => mediaQuery.removeEventListener("change", handleChange);
-  }, [theme]);
+  }, [theme, updateActualTheme]);
 
   const value: ThemeContextType = {
     theme,

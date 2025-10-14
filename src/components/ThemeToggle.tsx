@@ -31,7 +31,7 @@ import { useTheme, type Theme } from "@/lib/theme-provider";
  * Theme toggle button component
  */
 export function ThemeToggle(): React.JSX.Element {
-  const { theme, actualTheme, setTheme } = useTheme();
+  const { theme, setTheme } = useTheme();
 
   /**
    * Get icon for current theme

@@ -15,8 +15,7 @@ import {
   faArrowsRotate,
   faHandshake,
 } from "@fortawesome/free-solid-svg-icons";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import { Card, CardContent } from "@/components/ui/card";
 import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 
 interface Value {

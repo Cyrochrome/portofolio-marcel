@@ -22,7 +22,6 @@ type ViewMode = "grid" | "list";
 export function ProjectsPageClient(): React.JSX.Element {
   const [projects, setProjects] = useState<ProjectConfig[]>([]);
   const [filteredProjects, setFilteredProjects] = useState<ProjectConfig[]>([]);
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [viewMode, setViewMode] = useState<ViewMode>("grid");
 
@@ -30,7 +29,6 @@ export function ProjectsPageClient(): React.JSX.Element {
   useEffect(() => {
     async function fetchProjects() {
       try {
-        setLoading(true);
         const response = await fetch("/api/projects");
 
         if (!response.ok) {
@@ -50,8 +48,6 @@ export function ProjectsPageClient(): React.JSX.Element {
         setError(
           err instanceof Error ? err.message : "Failed to load projects"
         );
-      } finally {
-        setLoading(false);
       }
     }
 

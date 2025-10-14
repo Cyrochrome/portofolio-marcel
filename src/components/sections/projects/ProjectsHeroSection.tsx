@@ -1,8 +1,10 @@
+"use client";
+
 /**
  * Projects Hero Section Component
  *
  * Displays the main heading and description for the projects page.
- * Server component for better performance and SEO.
+ * Client component to support Framer Motion animations.
  */
 
 import { motion } from "framer-motion";
