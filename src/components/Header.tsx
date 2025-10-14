@@ -42,6 +42,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 /**
  * Navigation item interface for type safety
@@ -108,34 +109,49 @@ export default function Header(): React.JSX.Element {
         </motion.div>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center space-x-8 text-sm font-medium">
-          {navItems.map((item, index) => (
-            <motion.div
-              key={item.name}
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3, delay: index * 0.1 }}
-            >
-              <Link
-                href={item.href}
-                className={`relative transition-colors hover:text-foreground/80 ${
-                  pathname === item.href
-                    ? "text-foreground"
-                    : "text-foreground/60"
-                }`}
+        <div className="hidden md:flex items-center space-x-6 text-sm font-medium">
+          <nav className="flex items-center space-x-8">
+            {navItems.map((item, index) => (
+              <motion.div
+                key={item.name}
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3, delay: index * 0.1 }}
               >
-                {item.name}
-                {pathname === item.href && (
-                  <motion.div
-                    className="absolute -bottom-1 left-0 right-0 h-0.5 bg-primary"
-                    layoutId="navbar"
-                    transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
-                  />
-                )}
-              </Link>
-            </motion.div>
-          ))}
-        </nav>
+                <Link
+                  href={item.href}
+                  className={`relative transition-colors hover:text-foreground/80 ${
+                    pathname === item.href
+                      ? "text-foreground"
+                      : "text-foreground/60"
+                  }`}
+                >
+                  {item.name}
+                  {pathname === item.href && (
+                    <motion.div
+                      className="absolute -bottom-1 left-0 right-0 h-0.5 bg-primary"
+                      layoutId="navbar"
+                      transition={{
+                        type: "spring",
+                        bounce: 0.2,
+                        duration: 0.6,
+                      }}
+                    />
+                  )}
+                </Link>
+              </motion.div>
+            ))}
+          </nav>
+
+          {/* Theme Toggle */}
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3, delay: navItems.length * 0.1 }}
+          >
+            <ThemeToggle />
+          </motion.div>
+        </div>
 
         {/* Mobile Menu Sheet */}
         <Sheet open={isMenuOpen} onOpenChange={setIsMenuOpen}>
