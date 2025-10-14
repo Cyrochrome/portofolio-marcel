@@ -1,5 +1,3 @@
-import React from "react";
-
 /**
  * JSX Utilities - Portfolio Marcel
  *

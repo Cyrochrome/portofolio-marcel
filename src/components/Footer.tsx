@@ -1,3 +1,5 @@
+"use client";
+
 /**
  * Footer Component - Portfolio Marcel
  *
@@ -9,6 +11,7 @@
  * - Social media links and contact information
  * - Copyright notice with dynamic year
  * - Clean, professional styling with Tailwind CSS
+ * - Smooth animations powered by Framer Motion
  *
  * @component
  * @example
@@ -27,6 +30,7 @@
 
 import React from "react";
 import Link from "next/link";
+import { motion } from "framer-motion";
 
 /**
  * Social media link interface for type safety
@@ -146,68 +150,127 @@ export default function Footer(): React.JSX.Element {
   };
 
   return (
-    <footer className="w-full border-t bg-background">
+    <motion.footer
+      className="w-full border-t bg-background"
+      initial={{ opacity: 0, y: 50 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.8, ease: "easeOut" }}
+    >
       <div className="container flex flex-col items-center justify-between gap-4 py-10 md:h-24 md:flex-row md:py-0">
         {/* Copyright Section */}
-        <div className="flex flex-col items-center gap-4 px-8 md:flex-row md:gap-2 md:px-0">
+        <motion.div
+          className="flex flex-col items-center gap-4 px-8 md:flex-row md:gap-2 md:px-0"
+          initial={{ opacity: 0, x: -30 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+        >
           <p className="text-center text-sm leading-loose text-muted-foreground md:text-left">
             © {getCurrentYear()} Portfolio Marcel. All rights reserved.
           </p>
-        </div>
+        </motion.div>
 
         {/* Social Links Section */}
-        <div className="flex items-center space-x-4">
-          {socialLinks.map((link) => (
-            <Link
+        <motion.div
+          className="flex items-center space-x-4"
+          initial={{ opacity: 0, x: 30 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+        >
+          {socialLinks.map((link, index) => (
+            <motion.div
               key={link.name}
-              href={link.href}
-              target={link.external ? "_blank" : undefined}
-              rel={link.external ? "noopener noreferrer" : undefined}
-              className="text-muted-foreground transition-colors hover:text-foreground"
-              aria-label={`Visit ${link.name} profile`}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{
+                duration: 0.4,
+                delay: 0.6 + index * 0.1,
+                type: "spring",
+                stiffness: 100,
+              }}
+              whileHover={{ scale: 1.2, rotate: 5 }}
+              whileTap={{ scale: 0.9 }}
             >
-              {renderIcon(link.icon)}
-              <span className="sr-only">{link.name}</span>
-            </Link>
+              <Link
+                href={link.href}
+                target={link.external ? "_blank" : undefined}
+                rel={link.external ? "noopener noreferrer" : undefined}
+                className="text-muted-foreground transition-colors hover:text-foreground"
+                aria-label={`Visit ${link.name} profile`}
+              >
+                {renderIcon(link.icon)}
+                <span className="sr-only">{link.name}</span>
+              </Link>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
 
       {/* Additional Footer Content */}
-      <div className="container pb-8 pt-6">
+      <motion.div
+        className="container pb-8 pt-6"
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6, delay: 0.8 }}
+      >
         <div className="flex flex-col items-center justify-between gap-4 border-t pt-6 md:flex-row">
-          <p className="text-center text-sm text-muted-foreground md:text-left">
+          <motion.p
+            className="text-center text-sm text-muted-foreground md:text-left"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 1 }}
+          >
             Built with{" "}
-            <Link
-              href="https://nextjs.org"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-medium underline underline-offset-4 hover:text-primary"
+            <motion.span
+              whileHover={{ scale: 1.05 }}
+              transition={{ duration: 0.2 }}
             >
-              Next.js
-            </Link>
+              <Link
+                href="https://nextjs.org"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-medium underline underline-offset-4 hover:text-primary"
+              >
+                Next.js
+              </Link>
+            </motion.span>
             ,{" "}
-            <Link
-              href="https://www.typescriptlang.org"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-medium underline underline-offset-4 hover:text-primary"
+            <motion.span
+              whileHover={{ scale: 1.05 }}
+              transition={{ duration: 0.2 }}
             >
-              TypeScript
-            </Link>
+              <Link
+                href="https://www.typescriptlang.org"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-medium underline underline-offset-4 hover:text-primary"
+              >
+                TypeScript
+              </Link>
+            </motion.span>
             , and{" "}
-            <Link
-              href="https://tailwindcss.com"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="font-medium underline underline-offset-4 hover:text-primary"
+            <motion.span
+              whileHover={{ scale: 1.05 }}
+              transition={{ duration: 0.2 }}
             >
-              Tailwind CSS
-            </Link>
+              <Link
+                href="https://tailwindcss.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-medium underline underline-offset-4 hover:text-primary"
+              >
+                Tailwind CSS
+              </Link>
+            </motion.span>
             .
-          </p>
+          </motion.p>
         </div>
-      </div>
-    </footer>
+      </motion.div>
+    </motion.footer>
   );
 }
