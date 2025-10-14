@@ -36,6 +36,7 @@ import {
   faGithub,
   faLinkedin,
   faInstagram,
+  faWhatsapp,
 } from "@fortawesome/free-brands-svg-icons";
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import { Button } from "@/components/ui/button";
@@ -76,8 +77,14 @@ const socialLinks: SocialLink[] = [
     external: true,
   },
   {
+    name: "WhatsApp",
+    href: "https://wa.me/62895340502504",
+    icon: "whatsapp",
+    external: true,
+  },
+  {
     name: "Email",
-    href: "mailto:contact@example.com",
+    href: "mailto:marshalinas82@gmail.com",
     icon: "mail",
     external: true,
   },
@@ -112,6 +119,8 @@ export default function Footer(): React.JSX.Element {
         return <FontAwesomeIcon icon={faLinkedin} className={iconClass} />;
       case "instagram":
         return <FontAwesomeIcon icon={faInstagram} className={iconClass} />;
+      case "whatsapp":
+        return <FontAwesomeIcon icon={faWhatsapp} className={iconClass} />;
       case "mail":
         return <FontAwesomeIcon icon={faEnvelope} className={iconClass} />;
       default:
@@ -197,75 +206,88 @@ export default function Footer(): React.JSX.Element {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.8 }}
+          className="flex flex-col items-center gap-4"
         >
-          <div className="flex flex-col items-center gap-6 md:flex-row md:justify-between">
-            <Separator className="my-4 md:my-0" />
-            <motion.p
-              className="text-center text-sm text-muted-foreground md:text-left"
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: 1 }}
+          <Separator className="w-full" />
+          <motion.p
+            className="text-center text-sm text-muted-foreground"
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 1 }}
+          >
+            Built with{" "}
+            <motion.span
+              whileHover={{ scale: 1.05 }}
+              transition={{ duration: 0.2 }}
             >
-              Built with{" "}
-              <motion.span
-                whileHover={{ scale: 1.05 }}
-                transition={{ duration: 0.2 }}
+              <Link
+                href="https://nextjs.org"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-medium underline underline-offset-4 hover:text-primary"
               >
-                <Link
-                  href="https://nextjs.org"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="font-medium underline underline-offset-4 hover:text-primary"
-                >
-                  Next.js
-                </Link>
-              </motion.span>
-              ,{" "}
-              <motion.span
-                whileHover={{ scale: 1.05 }}
-                transition={{ duration: 0.2 }}
+                Next.js
+              </Link>
+            </motion.span>
+            ,{" "}
+            <motion.span
+              whileHover={{ scale: 1.05 }}
+              transition={{ duration: 0.2 }}
+            >
+              <Link
+                href="https://www.typescriptlang.org"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-medium underline underline-offset-4 hover:text-primary"
               >
-                <Link
-                  href="https://www.typescriptlang.org"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="font-medium underline underline-offset-4 hover:text-primary"
-                >
-                  TypeScript
-                </Link>
-              </motion.span>
-              ,{" "}
-              <motion.span
-                whileHover={{ scale: 1.05 }}
-                transition={{ duration: 0.2 }}
+                TypeScript
+              </Link>
+            </motion.span>
+            ,{" "}
+            <motion.span
+              whileHover={{ scale: 1.05 }}
+              transition={{ duration: 0.2 }}
+            >
+              <Link
+                href="https://ui.shadcn.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-medium underline underline-offset-4 hover:text-primary"
               >
-                <Link
-                  href="https://ui.shadcn.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="font-medium underline underline-offset-4 hover:text-primary"
-                >
-                  shadcn/ui
-                </Link>
-              </motion.span>
-              , and{" "}
-              <motion.span
-                whileHover={{ scale: 1.05 }}
-                transition={{ duration: 0.2 }}
+                shadcn/ui
+              </Link>
+            </motion.span>
+            ,{" "}
+            <motion.span
+              whileHover={{ scale: 1.05 }}
+              transition={{ duration: 0.2 }}
+            >
+              <Link
+                href="https://tailwindcss.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-medium underline underline-offset-4 hover:text-primary"
               >
-                <Link
-                  href="https://tailwindcss.com"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="font-medium underline underline-offset-4 hover:text-primary"
-                >
-                  Tailwind CSS
-                </Link>
-              </motion.span>
-              .
-            </motion.p>
-          </div>
+                Tailwind CSS
+              </Link>
+            </motion.span>
+            , and{" "}
+            <motion.span
+              whileHover={{ scale: 1.05 }}
+              transition={{ duration: 0.2 }}
+            >
+              <Link
+                href="https://www.framer.com/motion"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-medium underline underline-offset-4 hover:text-primary"
+              >
+                Framer Motion
+              </Link>
+            </motion.span>
+            .
+          </motion.p>
         </motion.div>
       </div>
     </motion.footer>
