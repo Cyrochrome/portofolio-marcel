@@ -136,13 +136,11 @@ export function FeaturedProjects() {
         {projects.map((project, index) => (
           <EnhancedProjectCard
             key={project.id}
-            id={parseInt(project.id) || index + 1}
             title={project.title}
             description={project.description}
             technologies={project.technologies}
             githubUrl={project.githubUrl}
             liveUrl={project.liveUrl}
-            featured={project.featured}
             index={index}
           />
         ))}

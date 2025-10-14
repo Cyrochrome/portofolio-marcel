@@ -9,6 +9,7 @@
 
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import Image from "next/image";
 import { GitHubCommit } from "@/types/github";
 import { formatCommitMessage, formatDate } from "@/lib/github-utils";
 
@@ -127,9 +128,11 @@ export function RecentCommits({
               {/* Avatar */}
               <div className="flex-shrink-0">
                 {commit.author?.avatar_url ? (
-                  <img
+                  <Image
                     src={commit.author.avatar_url}
-                    alt={commit.author.login}
+                    alt={commit.author.login || "Avatar"}
+                    width={40}
+                    height={40}
                     className="w-10 h-10 rounded-full"
                   />
                 ) : (

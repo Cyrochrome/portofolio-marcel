@@ -5,8 +5,7 @@
  * Supports both static configuration and dynamic GitHub integration.
  */
 
-import { GitHubRepository } from "@/types/github";
-import { fetchUserRepositories } from "./github-utils";
+
 
 export interface ProjectConfig {
   id: string;
