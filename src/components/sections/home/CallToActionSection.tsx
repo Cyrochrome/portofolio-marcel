@@ -11,6 +11,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { escapeApostrophes } from "@/lib/jsx-utils";
 import { Button } from "@/components/ui/button";
+import { trackEvent } from "@/lib/analytics-utils";
 
 export function CallToActionSection() {
   return (
@@ -56,7 +57,20 @@ export function CallToActionSection() {
             transition={{ duration: 0.2 }}
           >
             <Button asChild size="lg">
-              <Link href="/contact">Get In Touch</Link>
+              <Link
+                href="/contact"
+                onClick={() =>
+                  trackEvent({
+                    name: "cta_button_clicked",
+                    properties: {
+                      button_text: "Get In Touch",
+                      button_location: "cta_section",
+                    },
+                  })
+                }
+              >
+                Get In Touch
+              </Link>
             </Button>
           </motion.div>
           <motion.div
@@ -64,7 +78,18 @@ export function CallToActionSection() {
             transition={{ duration: 0.2 }}
           >
             <Button variant="ghost" asChild>
-              <Link href="/about">
+              <Link
+                href="/about"
+                onClick={() =>
+                  trackEvent({
+                    name: "cta_button_clicked",
+                    properties: {
+                      button_text: "Learn More About Me",
+                      button_location: "cta_section",
+                    },
+                  })
+                }
+              >
                 Learn More About Me <span aria-hidden="true">→</span>
               </Link>
             </Button>

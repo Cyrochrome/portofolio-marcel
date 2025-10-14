@@ -42,6 +42,7 @@ import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { trackEvent } from "@/lib/analytics-utils";
 
 /**
  * Social media link interface for type safety
@@ -187,6 +188,15 @@ export default function Footer(): React.JSX.Element {
                         href={link.href}
                         target={link.external ? "_blank" : undefined}
                         rel={link.external ? "noopener noreferrer" : undefined}
+                        onClick={() =>
+                          trackEvent({
+                            name: "social_link_clicked",
+                            properties: {
+                              platform: link.name.toLowerCase(),
+                              link_location: "footer",
+                            },
+                          })
+                        }
                         aria-label={`Visit ${link.name} profile`}
                       >
                         {renderIcon(link.icon)}
@@ -225,6 +235,15 @@ export default function Footer(): React.JSX.Element {
                 href="https://nextjs.org"
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={() =>
+                  trackEvent({
+                    name: "tech_link_clicked",
+                    properties: {
+                      technology: "nextjs",
+                      link_location: "footer",
+                    },
+                  })
+                }
                 className="font-medium underline underline-offset-4 hover:text-primary"
               >
                 Next.js
@@ -239,6 +258,15 @@ export default function Footer(): React.JSX.Element {
                 href="https://www.typescriptlang.org"
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={() =>
+                  trackEvent({
+                    name: "tech_link_clicked",
+                    properties: {
+                      technology: "typescript",
+                      link_location: "footer",
+                    },
+                  })
+                }
                 className="font-medium underline underline-offset-4 hover:text-primary"
               >
                 TypeScript
@@ -253,6 +281,15 @@ export default function Footer(): React.JSX.Element {
                 href="https://ui.shadcn.com"
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={() =>
+                  trackEvent({
+                    name: "tech_link_clicked",
+                    properties: {
+                      technology: "shadcn_ui",
+                      link_location: "footer",
+                    },
+                  })
+                }
                 className="font-medium underline underline-offset-4 hover:text-primary"
               >
                 shadcn/ui
@@ -267,6 +304,15 @@ export default function Footer(): React.JSX.Element {
                 href="https://tailwindcss.com"
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={() =>
+                  trackEvent({
+                    name: "tech_link_clicked",
+                    properties: {
+                      technology: "tailwind_css",
+                      link_location: "footer",
+                    },
+                  })
+                }
                 className="font-medium underline underline-offset-4 hover:text-primary"
               >
                 Tailwind CSS
@@ -281,6 +327,15 @@ export default function Footer(): React.JSX.Element {
                 href="https://www.framer.com/motion"
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={() =>
+                  trackEvent({
+                    name: "tech_link_clicked",
+                    properties: {
+                      technology: "framer_motion",
+                      link_location: "footer",
+                    },
+                  })
+                }
                 className="font-medium underline underline-offset-4 hover:text-primary"
               >
                 Framer Motion

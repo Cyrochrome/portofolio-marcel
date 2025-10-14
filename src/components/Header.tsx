@@ -43,6 +43,7 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { trackNavigation } from "@/lib/analytics-utils";
 
 /**
  * Navigation item interface for type safety
@@ -113,6 +114,9 @@ export default function Header(): React.JSX.Element {
               >
                 <Link
                   href={item.href}
+                  onClick={() =>
+                    trackNavigation(item.name.toLowerCase(), pathname)
+                  }
                   className={`relative transition-colors hover:text-foreground/80 ${
                     pathname === item.href
                       ? "text-foreground"
@@ -189,7 +193,10 @@ export default function Header(): React.JSX.Element {
                 >
                   <Link
                     href={item.href}
-                    onClick={closeMenu}
+                    onClick={() => {
+                      closeMenu();
+                      trackNavigation(item.name.toLowerCase(), pathname);
+                    }}
                     className={`flex w-full items-center rounded-md p-3 text-sm font-medium hover:underline transition-colors ${
                       pathname === item.href
                         ? "text-foreground bg-accent"

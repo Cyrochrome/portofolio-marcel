@@ -15,6 +15,7 @@ import { faStar, faCodeBranch } from "@fortawesome/free-solid-svg-icons";
 import { GitHubRepoStats } from "@/types/github";
 import { getRepoNameFromUrl } from "@/lib/github-utils";
 import { Badge } from "@/components/ui/badge";
+import { trackEvent } from "@/lib/analytics-utils";
 
 interface EnhancedProjectCardProps {
   title: string;
@@ -190,6 +191,15 @@ export function EnhancedProjectCard({
             href={githubUrl}
             target="_blank"
             rel="noopener noreferrer"
+            onClick={() =>
+              trackEvent({
+                name: "github_link_clicked",
+                properties: {
+                  project_name: title,
+                  link_type: "github",
+                },
+              })
+            }
             className="text-sm font-medium text-primary hover:text-primary/80 transition-colors"
           >
             View Code →
@@ -200,6 +210,15 @@ export function EnhancedProjectCard({
             href={liveUrl}
             target="_blank"
             rel="noopener noreferrer"
+            onClick={() =>
+              trackEvent({
+                name: "live_demo_clicked",
+                properties: {
+                  project_name: title,
+                  link_type: "live_demo",
+                },
+              })
+            }
             className="text-sm font-medium text-primary hover:text-primary/80 transition-colors"
           >
             Live Demo →

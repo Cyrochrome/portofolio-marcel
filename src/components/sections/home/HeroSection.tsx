@@ -11,6 +11,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { escapeApostrophes } from "@/lib/jsx-utils";
 import { Button } from "@/components/ui/button";
+import { trackEvent } from "@/lib/analytics-utils";
 
 export function HeroSection() {
   return (
@@ -55,7 +56,20 @@ export function HeroSection() {
             transition={{ duration: 0.2 }}
           >
             <Button asChild size="lg">
-              <Link href="/projects">View My Work</Link>
+              <Link
+                href="/projects"
+                onClick={() =>
+                  trackEvent({
+                    name: "cta_button_clicked",
+                    properties: {
+                      button_text: "View My Work",
+                      button_location: "hero_section",
+                    },
+                  })
+                }
+              >
+                View My Work
+              </Link>
             </Button>
           </motion.div>
           <motion.div
@@ -63,7 +77,18 @@ export function HeroSection() {
             transition={{ duration: 0.2 }}
           >
             <Button variant="ghost" asChild>
-              <Link href="/contact">
+              <Link
+                href="/contact"
+                onClick={() =>
+                  trackEvent({
+                    name: "cta_button_clicked",
+                    properties: {
+                      button_text: "Get In Touch",
+                      button_location: "hero_section",
+                    },
+                  })
+                }
+              >
                 Get In Touch <span aria-hidden="true">→</span>
               </Link>
             </Button>

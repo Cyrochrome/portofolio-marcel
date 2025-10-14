@@ -26,6 +26,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useTheme, type Theme } from "@/lib/theme-provider";
+import { trackThemeChange } from "@/lib/analytics-utils";
 
 /**
  * Theme toggle button component
@@ -94,7 +95,10 @@ export function ThemeToggle(): React.JSX.Element {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-40">
         <DropdownMenuItem
-          onClick={() => setTheme("light")}
+          onClick={() => {
+            setTheme("light");
+            trackThemeChange("light");
+          }}
           className={`cursor-pointer ${
             theme === "light" ? "bg-accent text-accent-foreground" : ""
           }`}
@@ -110,7 +114,10 @@ export function ThemeToggle(): React.JSX.Element {
           )}
         </DropdownMenuItem>
         <DropdownMenuItem
-          onClick={() => setTheme("dark")}
+          onClick={() => {
+            setTheme("dark");
+            trackThemeChange("dark");
+          }}
           className={`cursor-pointer ${
             theme === "dark" ? "bg-accent text-accent-foreground" : ""
           }`}
@@ -126,7 +133,10 @@ export function ThemeToggle(): React.JSX.Element {
           )}
         </DropdownMenuItem>
         <DropdownMenuItem
-          onClick={() => setTheme("system")}
+          onClick={() => {
+            setTheme("system");
+            trackThemeChange("system");
+          }}
           className={`cursor-pointer ${
             theme === "system" ? "bg-accent text-accent-foreground" : ""
           }`}

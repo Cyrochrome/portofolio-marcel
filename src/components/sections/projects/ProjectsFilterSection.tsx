@@ -21,6 +21,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { trackEvent } from "@/lib/analytics-utils";
 
 type SortOption = "priority" | "name" | "recent";
 type FilterOption = "all" | "featured" | "technology";
@@ -126,7 +127,18 @@ export function ProjectsFilterSection({
               <Input
                 placeholder="Search projects..."
                 value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
+                onChange={(e) => {
+                  setSearchQuery(e.target.value);
+                  if (e.target.value.trim()) {
+                    trackEvent({
+                      name: "project_search",
+                      properties: {
+                        query: e.target.value,
+                        location: "projects_page",
+                      },
+                    });
+                  }
+                }}
                 className="pl-10"
               />
             </div>
@@ -136,7 +148,16 @@ export function ProjectsFilterSection({
               {/* Filter */}
               <Select
                 value={filterBy}
-                onValueChange={(value: FilterOption) => setFilterBy(value)}
+                onValueChange={(value: FilterOption) => {
+                  setFilterBy(value);
+                  trackEvent({
+                    name: "project_filter_changed",
+                    properties: {
+                      filter_type: value,
+                      location: "projects_page",
+                    },
+                  });
+                }}
               >
                 <SelectTrigger className="w-40">
                   <Filter className="h-4 w-4 mr-2" />
@@ -153,7 +174,16 @@ export function ProjectsFilterSection({
               {filterBy === "technology" && (
                 <Select
                   value={selectedTechnology}
-                  onValueChange={setSelectedTechnology}
+                  onValueChange={(value) => {
+                    setSelectedTechnology(value);
+                    trackEvent({
+                      name: "technology_filter_selected",
+                      properties: {
+                        technology: value,
+                        location: "projects_page",
+                      },
+                    });
+                  }}
                 >
                   <SelectTrigger className="w-48">
                     <SelectValue placeholder="Select technology..." />
@@ -171,7 +201,16 @@ export function ProjectsFilterSection({
               {/* Sort */}
               <Select
                 value={sortBy}
-                onValueChange={(value: SortOption) => setSortBy(value)}
+                onValueChange={(value: SortOption) => {
+                  setSortBy(value);
+                  trackEvent({
+                    name: "project_sort_changed",
+                    properties: {
+                      sort_option: value,
+                      location: "projects_page",
+                    },
+                  });
+                }}
               >
                 <SelectTrigger className="w-40">
                   <SelectValue />
@@ -188,7 +227,16 @@ export function ProjectsFilterSection({
                 <Button
                   variant={viewMode === "grid" ? "default" : "ghost"}
                   size="sm"
-                  onClick={() => onViewModeChange("grid")}
+                  onClick={() => {
+                    onViewModeChange("grid");
+                    trackEvent({
+                      name: "view_mode_changed",
+                      properties: {
+                        view_mode: "grid",
+                        location: "projects_page",
+                      },
+                    });
+                  }}
                   className="rounded-r-none"
                 >
                   <Grid className="h-4 w-4" />
@@ -196,7 +244,16 @@ export function ProjectsFilterSection({
                 <Button
                   variant={viewMode === "list" ? "default" : "ghost"}
                   size="sm"
-                  onClick={() => onViewModeChange("list")}
+                  onClick={() => {
+                    onViewModeChange("list");
+                    trackEvent({
+                      name: "view_mode_changed",
+                      properties: {
+                        view_mode: "list",
+                        location: "projects_page",
+                      },
+                    });
+                  }}
                   className="rounded-l-none"
                 >
                   <List className="h-4 w-4" />
