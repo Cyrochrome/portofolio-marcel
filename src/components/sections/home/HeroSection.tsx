@@ -37,9 +37,10 @@ export function HeroSection() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
         >
-          A passionate full-stack developer specializing in creating exceptional
-          digital experiences. I build modern web applications with cutting-edge
-          technologies and user-centered design.
+          A self-taught full-stack developer with real-world experience across
+          diverse industries. From building gambling platforms with complex
+          backend systems to creating ecommerce solutions, I turn challenging
+          problems into elegant digital solutions.
         </motion.p>
         <motion.div
           className="mt-10 flex items-center justify-center gap-x-6"

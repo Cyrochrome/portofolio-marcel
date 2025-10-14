@@ -14,16 +14,21 @@ interface SkillsSectionProps {
 }
 
 const defaultSkills = [
+  "Python Flask",
   "JavaScript",
   "TypeScript",
   "React",
   "Next.js",
-  "Nuxt.js",
   "Vue.js",
   "Node.js",
   "HTML",
   "CSS",
   "Tailwind CSS",
+  "API Integration",
+  "Multi-tenant Systems",
+  "Ecommerce",
+  "Landing Pages",
+  "n8n Automation",
   "Git",
   "GitHub",
 ];
