@@ -130,14 +130,14 @@ export function GitHubStats({ className = "" }: GitHubStatsProps) {
         </motion.div>
 
         <div className="grid grid-cols-2 gap-6 lg:grid-cols-4 mb-12">
-          {statItems.map((item, index) => (
+          {statItems.map((item) => (
             <motion.div
               key={item.label}
               className="rounded-lg bg-card border p-6 text-center shadow-sm hover:shadow-md transition-shadow"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
+              transition={{ duration: 0.6 }}
               whileHover={{ y: -2 }}
             >
               <div className="text-2xl mb-2">{item.icon}</div>
@@ -161,7 +161,7 @@ export function GitHubStats({ className = "" }: GitHubStatsProps) {
               Most Used Languages
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {stats.mostUsedLanguages.slice(0, 6).map((lang, index) => (
+              {stats.mostUsedLanguages.slice(0, 6).map((lang) => (
                 <div key={lang.language} className="flex items-center gap-3">
                   <div className="w-3 h-3 rounded-full bg-primary"></div>
                   <span className="text-sm font-medium text-foreground">

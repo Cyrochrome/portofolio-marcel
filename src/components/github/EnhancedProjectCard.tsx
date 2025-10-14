@@ -14,24 +14,20 @@ import { GitHubRepoStats } from "@/types/github";
 import { getRepoNameFromUrl } from "@/lib/github-utils";
 
 interface EnhancedProjectCardProps {
-  id: number;
   title: string;
   description: string;
   technologies: string[];
   githubUrl?: string;
   liveUrl?: string;
-  featured: boolean;
   index?: number;
 }
 
 export function EnhancedProjectCard({
-  id,
   title,
   description,
   technologies,
   githubUrl,
   liveUrl,
-  featured,
   index = 0,
 }: EnhancedProjectCardProps) {
   const [githubData, setGithubData] = useState<GitHubRepoStats | null>(null);

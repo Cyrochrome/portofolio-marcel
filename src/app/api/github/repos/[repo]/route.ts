@@ -8,15 +8,12 @@
 import { NextResponse } from "next/server";
 import { getRepositoryStats } from "@/lib/github-utils";
 
-interface RouteParams {
-  params: {
-    repo: string;
-  };
-}
-
-export async function GET(request: Request, { params }: RouteParams) {
+export async function GET(
+  request: Request,
+  { params }: { params: Promise<{ repo: string }> }
+) {
   try {
-    const { repo } = params;
+    const { repo } = await params;
 
     if (!repo) {
       return NextResponse.json(
