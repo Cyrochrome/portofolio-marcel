@@ -8,7 +8,7 @@
  */
 
 import { useEffect, useState } from "react";
-import { ProjectConfig } from "@/lib/projects-utils";
+import { ProjectConfig, getFeaturedProjects } from "@/lib/projects-utils";
 import { ProjectsFilterSection } from "./ProjectsFilterSection";
 import { ProjectsGridSection } from "./ProjectsGridSection";
 
@@ -29,20 +29,9 @@ export function ProjectsPageClient(): React.JSX.Element {
   useEffect(() => {
     async function fetchProjects() {
       try {
-        const response = await fetch("/api/projects");
-
-        if (!response.ok) {
-          throw new Error("Failed to fetch projects");
-        }
-
-        const data = await response.json();
-
-        if (data.success) {
-          setProjects(data.data);
-          setFilteredProjects(data.data);
-        } else {
-          throw new Error(data.error || "Unknown error");
-        }
+        const projectsData = await getFeaturedProjects();
+        setProjects(projectsData);
+        setFilteredProjects(projectsData);
       } catch (err) {
         console.error("Error fetching projects:", err);
         setError(

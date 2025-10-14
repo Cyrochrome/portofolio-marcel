@@ -61,23 +61,8 @@ export const STATIC_PROJECTS: ProjectConfig[] = [
  * Fetch featured projects configuration
  */
 export async function getFeaturedProjects(): Promise<ProjectConfig[]> {
-  try {
-    // Try to fetch from API first (for dynamic configuration)
-    const response = await fetch("/api/projects", {
-      next: { revalidate: 3600 }, // Cache for 1 hour
-    });
-
-    if (response.ok) {
-      const data = await response.json();
-      if (data.success && data.data.length > 0) {
-        return data.data;
-      }
-    }
-  } catch (error) {
-    console.warn("Failed to fetch dynamic projects, using static configuration:", error);
-  }
-
-  // Fallback to static configuration
+  // Return static projects configuration directly
+  // This avoids circular dependency issues when called from API routes
   return STATIC_PROJECTS;
 }
 

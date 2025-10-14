@@ -10,7 +10,7 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { ProjectConfig } from "@/lib/projects-utils";
+import { ProjectConfig, getFeaturedProjects } from "@/lib/projects-utils";
 import { EnhancedProjectCard } from "./github/EnhancedProjectCard";
 
 export function FeaturedProjects() {
@@ -22,19 +22,8 @@ export function FeaturedProjects() {
     async function fetchProjects() {
       try {
         setLoading(true);
-        const response = await fetch("/api/projects");
-
-        if (!response.ok) {
-          throw new Error("Failed to fetch projects");
-        }
-
-        const data = await response.json();
-
-        if (data.success) {
-          setProjects(data.data);
-        } else {
-          throw new Error(data.error || "Unknown error");
-        }
+        const projectsData = await getFeaturedProjects();
+        setProjects(projectsData);
       } catch (err) {
         console.error("Error fetching projects:", err);
         setError(
