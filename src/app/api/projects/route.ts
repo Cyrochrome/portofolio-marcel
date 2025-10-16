@@ -1,22 +1,56 @@
 /**
  * Projects API Route
  *
- * Provides project configuration data for the portfolio.
- * Supports dynamic project management and GitHub integration with proper error handling.
+ * Provides dynamic project data from GitHub repositories with flexible filtering.
+ * Supports multiple project types and fallback to static data when needed.
  */
 
 import { NextResponse } from "next/server";
-import { getEnhancedProjects, getFeaturedProjects, STATIC_PROJECTS } from "@/lib/projects-utils";
+import {
+  getFeaturedProjects,
+  getRecentProjects,
+  getAllProjects,
+  getDynamicProjects,
+  STATIC_PROJECTS,
+  ProjectFilters
+} from "@/lib/projects-utils";
 
-export async function GET() {
+export async function GET(request: Request) {
   try {
-    // Try to get enhanced projects with GitHub data first
-    let projects = await getEnhancedProjects();
+    const { searchParams } = new URL(request.url);
+    const type = searchParams.get('type') || 'featured'; // featured, recent, all, dynamic
+    const limit = parseInt(searchParams.get('limit') || '10');
+    const minStars = searchParams.get('minStars') ? parseInt(searchParams.get('minStars')!) : undefined;
+    const sortBy = searchParams.get('sortBy') as ProjectFilters['sortBy'];
+    const excludeForks = searchParams.get('excludeForks') === 'true';
 
-    // If enhanced projects fail, fall back to static projects
-    if (!projects || projects.length === 0) {
-      console.warn("Enhanced projects failed, falling back to static projects");
-      projects = await getFeaturedProjects();
+    let projects;
+
+    switch (type) {
+      case 'featured':
+        projects = await getFeaturedProjects();
+        break;
+
+      case 'recent':
+        projects = await getRecentProjects(limit);
+        break;
+
+      case 'all':
+        projects = await getAllProjects();
+        break;
+
+      case 'dynamic':
+        const filters: ProjectFilters = {
+          limit,
+          minStars,
+          sortBy,
+          excludeForks,
+        };
+        projects = await getDynamicProjects(filters);
+        break;
+
+      default:
+        projects = await getFeaturedProjects();
     }
 
     if (!projects || projects.length === 0) {
@@ -26,13 +60,15 @@ export async function GET() {
     return NextResponse.json({
       success: true,
       data: projects,
-      enhanced: true, // Indicates if we got enhanced data with GitHub stats
+      type,
+      count: projects.length,
       timestamp: new Date().toISOString(),
     });
+
   } catch (error) {
     console.error("Error fetching projects:", error);
 
-    // Enhanced error response with proper status code
+    // Enhanced error response with fallback data
     return NextResponse.json(
       {
         success: false,
