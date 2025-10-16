@@ -12,60 +12,31 @@ import {
   GitHubStats,
   GitHubRepoStats,
 } from "@/types/github";
+import { githubApiRequest, createUserEndpoint, createRepoEndpoint } from "./axios-config";
+
+/**
+ * GitHub API Error interface
+ */
+interface GitHubApiError extends Error {
+  status?: number;
+}
 
 /**
  * GitHub API configuration
  */
-const GITHUB_API_BASE = "https://api.github.com";
 const USERNAME = "Cyrochrome"; // GitHub username from portfolio
-
-/**
- * Get GitHub token from environment variables
- */
-function getGitHubToken(): string | null {
-  // In Next.js, environment variables are available at runtime
-  if (typeof window === 'undefined') {
-    // Server-side
-    return process.env.GITHUB_TOKEN || process.env.NEXT_PUBLIC_GITHUB_TOKEN || null;
-  }
-  // Client-side
-  return null;
-}
-
-/**
- * Get authorization headers for GitHub API
- */
-function getGitHubHeaders(): Record<string, string> {
-  const token = getGitHubToken();
-  const headers: Record<string, string> = {
-    Accept: "application/vnd.github.v3+json",
-  };
-
-  if (token) {
-    headers.Authorization = `token ${token}`;
-  }
-
-  return headers;
-}
 
 /**
  * Fetch user repositories from GitHub API
  */
 export async function fetchUserRepositories(): Promise<GitHubRepository[]> {
   try {
-    const response = await fetch(
-      `${GITHUB_API_BASE}/users/${USERNAME}/repos?sort=updated&per_page=100`,
+    const repositories: GitHubRepository[] = await githubApiRequest(
+      createUserEndpoint("/repos"),
       {
-        headers: getGitHubHeaders(),
-        next: { revalidate: 3600 }, // Cache for 1 hour
+        params: { sort: "updated", per_page: 100 },
       }
     );
-
-    if (!response.ok) {
-      throw new Error(`GitHub API error: ${response.status}`);
-    }
-
-    const repositories: GitHubRepository[] = await response.json();
 
     // Filter out archived repositories and sort by last updated
     return repositories
@@ -82,24 +53,14 @@ export async function fetchUserRepositories(): Promise<GitHubRepository[]> {
  */
 export async function fetchRepositoryDetails(repoName: string): Promise<GitHubRepository | null> {
   try {
-    const response = await fetch(
-      `${GITHUB_API_BASE}/repos/${USERNAME}/${repoName}`,
-      {
-        headers: getGitHubHeaders(),
-        next: { revalidate: 1800 }, // Cache for 30 minutes
-      }
-    );
-
-    if (!response.ok) {
-      if (response.status === 404) {
-        // Repository not found - return null instead of throwing
-        return null;
-      }
-      throw new Error(`GitHub API error: ${response.status}`);
-    }
-
-    return await response.json();
+    const repository: GitHubRepository = await githubApiRequest(createRepoEndpoint(repoName));
+    return repository;
   } catch (error) {
+    const apiError = error as GitHubApiError;
+    if (apiError.status === 404) {
+      // Repository not found - return null instead of throwing
+      return null;
+    }
     console.error(`Error fetching repository ${repoName}:`, error);
     return null;
   }
@@ -110,24 +71,14 @@ export async function fetchRepositoryDetails(repoName: string): Promise<GitHubRe
  */
 export async function fetchRepositoryLanguages(repoName: string): Promise<GitHubLanguage> {
   try {
-    const response = await fetch(
-      `${GITHUB_API_BASE}/repos/${USERNAME}/${repoName}/languages`,
-      {
-        headers: getGitHubHeaders(),
-        next: { revalidate: 3600 }, // Cache for 1 hour
-      }
-    );
-
-    if (!response.ok) {
-      if (response.status === 404) {
-        // Repository not found - return empty object instead of throwing
-        return {};
-      }
-      throw new Error(`GitHub API error: ${response.status}`);
-    }
-
-    return await response.json();
+    const languages: GitHubLanguage = await githubApiRequest(createRepoEndpoint(repoName, "/languages"));
+    return languages;
   } catch (error) {
+    const apiError = error as GitHubApiError;
+    if (apiError.status === 404) {
+      // Repository not found - return empty object instead of throwing
+      return {};
+    }
     console.error(`Error fetching languages for ${repoName}:`, error);
     return {};
   }
@@ -141,25 +92,16 @@ export async function fetchRepositoryCommits(
   limit: number = 10
 ): Promise<GitHubCommit[]> {
   try {
-    const response = await fetch(
-      `${GITHUB_API_BASE}/repos/${USERNAME}/${repoName}/commits?per_page=${limit}`,
-      {
-        headers: getGitHubHeaders(),
-        next: { revalidate: 900 }, // Cache for 15 minutes
-      }
-    );
-
-    if (!response.ok) {
-      if (response.status === 404) {
-        // Repository not found - return empty array instead of throwing
-        return [];
-      }
-      throw new Error(`GitHub API error: ${response.status}`);
-    }
-
-    const commits: GitHubCommit[] = await response.json();
+    const commits: GitHubCommit[] = await githubApiRequest(createRepoEndpoint(repoName, `/commits`), {
+      params: { per_page: limit },
+    });
     return commits.slice(0, limit);
   } catch (error) {
+    const apiError = error as GitHubApiError;
+    if (apiError.status === 404) {
+      // Repository not found - return empty array instead of throwing
+      return [];
+    }
     console.error(`Error fetching commits for ${repoName}:`, error);
     return [];
   }
