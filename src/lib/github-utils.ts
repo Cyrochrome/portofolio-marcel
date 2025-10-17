@@ -22,11 +22,6 @@ interface GitHubApiError extends Error {
 }
 
 /**
- * GitHub API configuration
- */
-const USERNAME = "Cyrochrome"; // GitHub username from portfolio
-
-/**
  * Fetch user repositories from GitHub API
  */
 export async function fetchUserRepositories(): Promise<GitHubRepository[]> {
