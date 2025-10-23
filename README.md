@@ -1,11 +1,13 @@
 # 🚀 Marcel's Portfolio Website
 
-A modern, responsive portfolio website built with Next.js 15, showcasing projects, skills, and experience with dynamic GitHub integration.
+A modern, responsive portfolio website built with Next.js 15, showcasing projects, skills, and experience with dynamic GitHub integration and planned Supabase database support.
 
 ![Next.js](https://img.shields.io/badge/Next.js-15.5.4-black)
+![React](https://img.shields.io/badge/React-19.1.0-61DAFB)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5-blue)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-38B2AC)
 ![GitHub API](https://img.shields.io/badge/GitHub_API-Integration-green)
+![Supabase](https://img.shields.io/badge/Supabase-Planned-3ECF8E)
 
 ## 🌟 Features
 
@@ -14,6 +16,11 @@ A modern, responsive portfolio website built with Next.js 15, showcasing project
 - **Flexible Filtering**: Multiple project types (featured, recent, all) with customizable filters
 - **Smart Fallback**: Graceful degradation to static content when API is unavailable
 - **Enhanced Metadata**: Technologies, descriptions, and statistics from real repositories
+
+### 🗄️ Database Integration (Planned)
+- **Supabase Support**: Alternative data source for projects with PostgreSQL database
+- **Flexible Data Management**: Enhanced project management and filtering capabilities
+- **Real-time Updates**: Live data synchronization with database changes
 
 ### 🎨 Modern Design
 - **Responsive Layout**: Mobile-first design that works on all devices
@@ -38,6 +45,11 @@ A modern, responsive portfolio website built with Next.js 15, showcasing project
 - **Icons**: FontAwesome 7.1.0
 - **UI Components**: Radix UI primitives
 
+### Backend & Database
+- **GitHub API**: Real-time repository data integration
+- **Supabase** (Planned): PostgreSQL database for enhanced data management
+- **REST APIs**: Custom endpoints for projects and statistics
+
 ### Development & Analytics
 - **Linting**: ESLint 9
 - **Analytics**: Vercel Analytics
@@ -48,7 +60,8 @@ A modern, responsive portfolio website built with Next.js 15, showcasing project
 ### Prerequisites
 - Node.js 18+
 - npm, yarn, pnpm, or bun
-- GitHub Personal Access Token (optional, for enhanced features)
+- GitHub Personal Access Token (optional, for enhanced GitHub integration)
+- Supabase account (optional, for planned database integration)
 
 ### Installation
 
@@ -72,9 +85,17 @@ A modern, responsive portfolio website built with Next.js 15, showcasing project
    cp .env.example .env.local
    ```
 
-   Add your GitHub token to `.env.local`:
+   Edit `.env.local` and add your credentials:
    ```env
+   # Required for GitHub integration (optional - provides enhanced project data)
    GITHUB_TOKEN=your_github_personal_access_token_here
+
+   # Optional analytics tracking
+   NEXT_PUBLIC_ANALYTICS_ID=your_analytics_id
+
+   # Planned Supabase integration (when implemented)
+   NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
    ```
 
 4. **Run the development server**
@@ -140,10 +161,10 @@ portofolio-marcel/
 ### Available Scripts
 
 ```bash
-# Development server with hot reload
+# Development server with hot reload (using Turbopack for faster builds)
 npm run dev
 
-# Production build
+# Production build (using Turbopack for faster builds)
 npm run build
 
 # Start production server
@@ -155,7 +176,7 @@ npm run lint
 
 ### Environment Variables
 
-Create a `.env.local` file in the root directory:
+Create a `.env.local` file in the root directory (copy from `.env.example`):
 
 ```env
 # GitHub Integration (optional)
@@ -163,6 +184,10 @@ GITHUB_TOKEN=your_github_personal_access_token_here
 
 # Analytics (optional)
 NEXT_PUBLIC_ANALYTICS_ID=your_analytics_id
+
+# Supabase Integration (planned)
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
 ```
 
 ## 🌐 Deployment
@@ -176,6 +201,9 @@ NEXT_PUBLIC_ANALYTICS_ID=your_analytics_id
 
 2. **Set environment variables** in Vercel dashboard:
    - `GITHUB_TOKEN` - Your GitHub Personal Access Token
+   - `NEXT_PUBLIC_ANALYTICS_ID` - Your analytics provider ID (optional)
+   - `NEXT_PUBLIC_SUPABASE_URL` - Your Supabase project URL (when implemented)
+   - `NEXT_PUBLIC_SUPABASE_ANON_KEY` - Your Supabase anonymous key (when implemented)
 
 3. **Deploy**
    ```bash
@@ -217,4 +245,4 @@ This project is private and not licensed for public use.
 
 ⭐ **Star this repository** if you find it helpful!
 
-Built with ❤️ using Next.js 15, TypeScript, and Tailwind CSS.
+Built with ❤️ using Next.js 15, React 19, TypeScript, and Tailwind CSS with GitHub API integration and planned Supabase support.
